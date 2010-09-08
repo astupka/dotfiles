@@ -24,7 +24,8 @@ else
 fi
 
 alias l="ls"
-alias ll="ls -l"
+# long listing, hidden files, reverse sort by timestamp, human readable size
+alias ll="ls -larth"
 alias la="ls -a"
 alias lal="ls -al"
 
