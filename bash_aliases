@@ -124,6 +124,10 @@ function gemdoc {
   open $GEMS/../doc/`gemfind $1`/rdoc/index.html
 }
 
+function grb {
+  find . -name '*.rb' | xargs grep -i "$1"
+}
+
 ############################################################
 ## Rails
 ############################################################
@@ -147,6 +151,7 @@ alias wgeto="wget -q -O -"
 alias sha1="openssl dgst -sha1"
 alias sha2="openssl dgst -sha256"
 alias b64="openssl enc -base64"
+alias mvim="mvim --remote-tab-silent"
 
 alias flushdns='dscacheutil -flushcache'
 
