@@ -42,7 +42,8 @@ alias gl="git pull"
 alias glr="git pull --rebase"
 alias gp="git push"
 alias gs="git status"
-alias gg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
+alias gg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%Creset %Cblue(%an)' --abbrev-commit --date=relative"
+alias ggme="gg --author='Alex Stupka'"
 alias ggs="gg --stat"
 alias gh="github"
 alias gsl="git shortlog -sn"
@@ -107,7 +108,6 @@ alias r="rake"
 alias a="rake db:test:clone && autotest -q"
 alias smp="staticmatic preview ."
 
-export GEMS=`gem env gemdir`/gems
 function gemfind {
   echo `ls $GEMS | grep -i $1 | sort | tail -1`
 }
@@ -122,10 +122,6 @@ function gemcd {
 # that best matches the name provided.
 function gemdoc {
   open $GEMS/../doc/`gemfind $1`/rdoc/index.html
-}
-
-function grb {
-  find . -name '*.rb' | xargs grep -i "$1"
 }
 
 ############################################################
@@ -154,5 +150,8 @@ alias b64="openssl enc -base64"
 alias mvim="mvim --remote-tab-silent"
 
 alias flushdns='dscacheutil -flushcache'
+alias re="rvm list; echo -n 'gemset: '; rvm gemset name"
+alias sds="kill -9 $(ps -A | grep -i 'oracle.ide.boot.Launcher'|  head -1 | awk '{print $1}')"
 
+alias rabl='rabbitmqctl list_queues && rabbitmqctl list_exchanges && rabbitmqctl list_bindings && rabbitmqctl list_connections && rabbitmqctl list_consumers'
 ############################################################

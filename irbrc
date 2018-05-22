@@ -13,7 +13,7 @@ end
 
 require 'rubygems'
 begin
-  require 'utility_belt'
+#  require 'utility_belt'
   require 'interactive_editor'
 rescue LoadError => e
   warn "Missing utility_belt or interactive_editor gem"

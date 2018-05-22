@@ -19,7 +19,7 @@ if [ -d ~/bin/private ] ; then
 fi
 
 if [ -d /usr/local/bin ] ; then
-  PATH="${PATH}:/usr/local/bin"
+  PATH="/usr/local/bin:${PATH}"
 fi
 
 # Node Package Manager
@@ -111,6 +111,7 @@ case $TERM in
     PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/$HOME/~}\033\\"'
     ;;
 esac
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 # Show the git branch and dirty state in the prompt.
 # Borrowed from: http://henrik.nyh.se/2008/12/git-dirty-prompt
@@ -149,9 +150,10 @@ shopt -s histappend
 
 export HISTIGNORE="&:pwd:ls:ll:lal:[bf]g:exit:rm*:sudo rm*"
 # remove duplicates from the history (when a new item is added)
-export HISTCONTROL=erasedups
+export HISTCONTROL=ignoredups:erasedups
 # increase the default size from only 1,000 items
-export HISTSIZE=10000
+export HISTSIZE=100000
+export HISTFILESIZE=100000
 
 ############################################################
 ## Aliases
@@ -184,37 +186,37 @@ fi
 ############################################################
 ## AutoJump
 ############################################################
-_autojump()
-{
-        local cur
-        cur=${COMP_WORDS[*]:1}
-        while read i
-        do
-            COMPREPLY=("${COMPREPLY[@]}" "${i}")
-        done  < <(autojump --bash --completion $cur)
-}
-complete -F _autojump j
-data_dir=${XDG_DATA_HOME:-$([ -e ~/.local/share ] && echo ~/.local/share || echo ~)}
-if [ "$data_dir" = "~" ]
-then
-    export AUTOJUMP_DATA_DIR=${data_dir}
-else
-    export AUTOJUMP_DATA_DIR=${data_dir}/autojump
-fi
-if [ ! -e "${AUTOJUMP_DATA_DIR}" ]
-then
-    mkdir "${AUTOJUMP_DATA_DIR}"
-    mv ~/.autojump_py "${AUTOJUMP_DATA_DIR}/autojump_py" 2>>/dev/null #migration
-    mv ~/.autojump_py.bak "${AUTOJUMP_DATA_DIR}/autojump_py.bak" 2>>/dev/null
-    mv ~/.autojump_errors "${AUTOJUMP_DATA_DIR}/autojump_errors" 2>>/dev/null
-fi
-
-AUTOJUMP='{ (autojump -a "$(pwd -P)"&)>/dev/null 2>>${AUTOJUMP_DATA_DIR}/.autojump_errors;} 2>/dev/null'
-if [[ ! $PROMPT_COMMAND =~ autojump ]]; then
-  export PROMPT_COMMAND="${PROMPT_COMMAND:-:} && $AUTOJUMP"
-fi
-alias jumpstat="autojump --stat"
-function j { new_path="$(autojump $@)";if [ -n "$new_path" ]; then echo -e "\\033[31m${new_path}\\033[0m"; cd "$new_path";fi }
+#_autojump()
+#{
+#        local cur
+#        cur=${COMP_WORDS[*]:1}
+#        while read i
+#        do
+#            COMPREPLY=("${COMPREPLY[@]}" "${i}")
+#        done  < <(autojump --bash --completion $cur)
+#}
+#complete -F _autojump j
+#data_dir=${XDG_DATA_HOME:-$([ -e ~/.local/share ] && echo ~/.local/share || echo ~)}
+#if [ "$data_dir" = "~" ]
+#then
+#    export AUTOJUMP_DATA_DIR=${data_dir}
+#else
+#    export AUTOJUMP_DATA_DIR=${data_dir}/autojump
+#fi
+#if [ ! -e "${AUTOJUMP_DATA_DIR}" ]
+#then
+#    mkdir "${AUTOJUMP_DATA_DIR}"
+#    mv ~/.autojump_py "${AUTOJUMP_DATA_DIR}/autojump_py" 2>>/dev/null #migration
+#    mv ~/.autojump_py.bak "${AUTOJUMP_DATA_DIR}/autojump_py.bak" 2>>/dev/null
+#    mv ~/.autojump_errors "${AUTOJUMP_DATA_DIR}/autojump_errors" 2>>/dev/null
+#fi
+#
+#AUTOJUMP='{ (autojump -a "$(pwd -P)"&)>/dev/null 2>>${AUTOJUMP_DATA_DIR}/.autojump_errors;} 2>/dev/null'
+#if [[ ! $PROMPT_COMMAND =~ autojump ]]; then
+#  export PROMPT_COMMAND="${PROMPT_COMMAND:-:} && $AUTOJUMP"
+#fi
+#alias jumpstat="autojump --stat"
+#function j { new_path="$(autojump $@)";if [ -n "$new_path" ]; then echo -e "\\033[31m${new_path}\\033[0m"; cd "$new_path";fi }
 ############################################################
 ## Other
 ############################################################
@@ -231,8 +233,25 @@ if [ -f /opt/local/share/curl/curl-ca-bundle.crt ] ; then
   export SSL_CERT_FILE="/opt/local/share/curl/curl-ca-bundle.crt"
 fi
 
+function build_tags() {
+  rm -f cscope.files tags cscope.out
+  find . "$GEM_HOME" -name '*.rb' >cscope.files
+  xargs -n100 ctags -a < cscope.files
+  cscope -P$(pwd) -b
+}
+
 ############################################################
 
 # VI Mode
 
 set -o vi
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# tabtab source for electron-forge package
+# uninstall by removing these lines or running `tabtab uninstall electron-forge`
+[ -f /Users/astupka/working/projects/customink/printron/node_modules/tabtab/.completions/electron-forge.bash ] && . /Users/astupka/working/projects/customink/printron/node_modules/tabtab/.completions/electron-forge.bash

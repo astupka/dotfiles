@@ -1,6 +1,6 @@
 [user]
-  email = astupka21@yahoo.com
-  name = Alex Stupka
+	email = astupka21@yahoo.com
+	name = Alex Stupka
 [alias]
 	co = checkout
 	st = status
@@ -17,6 +17,7 @@
   pager = true
 [merge]
 	summary = true
+	tool = git
 [push]
 	default = matching
 [remote "origin"]
@@ -25,3 +26,4 @@
   user = astupka
 [core]
 	excludesfile = /Users/astupka/.gitignore
+[mergetool "git"]

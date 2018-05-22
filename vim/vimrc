@@ -64,6 +64,8 @@ set foldmethod=syntax           " (fdm) creates folds that make sense for the la
 set foldenable                  " (fen) enables or disables folding
 " unfold all folds when a file is opened
 autocmd  BufWinEnter * normal zR
+autocmd User Rails Rnavcommand coffee app/assets/javascripts -glob=**/* -suffix=.coffee
+autocmd User Rails Rnavcommand config config -glob=**/* -suffix=.rb
 
 set backup
 set backupdir=~/.vim_tmp
@@ -345,7 +347,7 @@ endfunction
 " :retab                - when expandtab is set, replace all tabs in the file with the # of spaces defined in 'shiftwidth'
 " :retab!               - when expandtab is not set, replace the number of spaces in 'shiftwidth' with a tab
 if has("cscope")
-    set csprg=/usr/bin/cscope
+    set csprg=cscope
     set csto=0
     set cst
     set nocsverb
