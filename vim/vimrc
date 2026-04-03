@@ -77,18 +77,6 @@ set background=dark
 syntax on " syntax highlighting
 colorscheme railscasts
 
-" TagList plugin config
-let Tlist_Show_One_File = 1   " Show only one file in the taglist at a time
-let Tlist_Sort_Type = "name"  " Sort tag list by names rather than order they are defined
-map <D-i> :TlistToggle<CR>
-
-" YankRing plugin config
-nmap yr :YRShow<CR>
-nmap yc :YRClear<CR>
-nmap yp p:YRPop<CR>
-nmap yP P:YRPop<CR>
-let g:yankring_min_element_length = 2
-
 " pathogen init
 call pathogen#infect()
 
@@ -151,53 +139,6 @@ autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete " may require rub
 " |                              Pluggins                                     |
 " -----------------------------------------------------------------------------
 
-" NERDTree ********************************************************************
-:noremap ,n :NERDTreeToggle<CR>
-
-" User instead of Netrw when doing an edit /foobar
-let NERDTreeHijackNetrw=1
-
-" Single click for everything
-let NERDTreeMouseMode=1
-
-" SnippetsEmu *****************************************************************
-"imap <unique> <C-j> <Plug>Jumper
-"let g:snip_start_tag = "_\."
-"let g:snip_end_tag = "\._"
-"let g:snip_elem_delim = ":"
-"let g:snip_set_textmate_cp = '1'  " Tab to expand snippets, not automatically.
-
-" peep open ********************************************************
-map <unique> <silent> ,f <Plug>PeepOpen
-
-" fuzzyfinder_textmate ********************************************************
-" map ,f :FuzzyFinderTextMate<CR>
-map ,b :FuzzyFinderBuffer<CR>
-let g:fuzzy_ignore = '.git/*;*.swp;public/backend/*'
-
-" Fuzzyfinder *****************************************************************
-" Fuzzy finder rocks, like Command-T in TextMate (buggy at moment, fix!!)
-"let g:FuzzyFinderOptions = { 'Base':{}, 'Buffer':{}, 'File':{}, 'MruFile':{}, 'FavFile':{}, 'Dir':{}, 'Tag':{}, 'TaggedFile':{}}
-"let gf:FuzzyFinderOptions.Base.abbrev_map = { "^Project-" : ["**/"], }
-"let g:FuzzyFinderOptions.Base.migemo_support = 0
-"let g:FuzzyFinderOptions.File.excluded_path = '\v\~$|\.o$|\.git/|\.DS_Store|\.exe$|\.bak$|\.swp$|((^|[/\\])\.[/\\]$)'
-"map ,f :FuzzyFinderFile Project-<CR>
-"map ,b :FuzzyFinderBuffer<CR>
-
-map <S-b> \be
-
-" autocomplpop ***************************************************************
-" complete option
-"set complete=.,w,b,u,t,k
-"let g:AutoComplPop_CompleteOption = '.,w,b,u,t,k'
-"set complete=.
-let g:AutoComplPop_IgnoreCaseOption = 0
-let g:AutoComplPop_BehaviorKeywordLength = -1
-let g:AutoComplPop_MappingDriven=1
-
-
-" AutoClose config
-let g:AutoClosePairs = {'(': ')', '{': '}', '[': ']', '"': '"'}
 
 " -----------------------------------------------------------------------------
 " |                             OS Specific                                   |
