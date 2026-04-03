@@ -27,3 +27,5 @@
 [core]
 	excludesfile = /Users/astupka/.gitignore
 [mergetool "git"]
+[credential]
+	helper = osxkeychain

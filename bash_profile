@@ -10,6 +10,15 @@ if [ -e ~/.bash_local ] ; then
 fi
 
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
 eval "$(rbenv init -)"
+
+# Created by `pipx` on 2023-08-04 04:10:14
+export PATH="$PATH:/Users/alexstupka/.local/bin"
+export PATH="/usr/local/opt/libpq/bin:$PATH"
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init.bash 2>/dev/null || :

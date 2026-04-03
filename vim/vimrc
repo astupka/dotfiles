@@ -3,6 +3,7 @@
 " |                   (see gvimrc for gui vim settings)                       |
 " -----------------------------------------------------------------------------
 
+set re=1
 set nocompatible                " (cp) use Vim defaults (much better)
 syntax on                       " turns syntax highlighting on
 set ruler                       " (ru) show the cursor position at all times
@@ -64,8 +65,8 @@ set foldmethod=syntax           " (fdm) creates folds that make sense for the la
 set foldenable                  " (fen) enables or disables folding
 " unfold all folds when a file is opened
 autocmd  BufWinEnter * normal zR
-autocmd User Rails Rnavcommand coffee app/assets/javascripts -glob=**/* -suffix=.coffee
-autocmd User Rails Rnavcommand config config -glob=**/* -suffix=.rb
+" autocmd User Rails Rnavcommand coffee app/assets/javascripts -glob=**/* -suffix=.coffee
+" autocmd User Rails Rnavcommand config config -glob=**/* -suffix=.rb
 
 set backup
 set backupdir=~/.vim_tmp
@@ -89,7 +90,7 @@ nmap yP P:YRPop<CR>
 let g:yankring_min_element_length = 2
 
 " pathogen init
-call pathogen#runtime_append_all_bundles()
+call pathogen#infect()
 
 " File Stuff ******************************************************************
 filetype off
