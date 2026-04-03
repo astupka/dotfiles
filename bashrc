@@ -167,12 +167,12 @@ fi
 ## Bash Completion, if available
 ############################################################
 
-if [ -f /opt/local/etc/bash_completion ]; then
+if [ -r /opt/homebrew/etc/profile.d/bash_completion.sh ]; then
+  . /opt/homebrew/etc/profile.d/bash_completion.sh
+elif [ -f /opt/local/etc/bash_completion ]; then
   . /opt/local/etc/bash_completion
-elif  [ -f /etc/bash_completion ]; then
+elif [ -f /etc/bash_completion ]; then
   . /etc/bash_completion
-elif  [ -f /etc/profile.d/bash_completion ]; then
-  . /etc/profile.d/bash_completion
 fi
 
 # http://onrails.org/articles/2006/11/17/rake-command-completion-using-rake
@@ -255,3 +255,9 @@ export NVM_DIR="$HOME/.nvm"
 # tabtab source for electron-forge package
 # uninstall by removing these lines or running `tabtab uninstall electron-forge`
 [ -f /Users/astupka/working/projects/customink/printron/node_modules/tabtab/.completions/electron-forge.bash ] && . /Users/astupka/working/projects/customink/printron/node_modules/tabtab/.completions/electron-forge.bash
+# Created by `pipx` on 2023-08-04 04:10:14
+export PATH="$PATH:/Users/alexstupka/.local/bin"
+
+# Claude Code with auto plugin update check
+alias claude='(claude-plugin-update &); command claude --chrome'
+
