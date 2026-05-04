@@ -184,6 +184,7 @@ function kc() {
     'IRB.conf[:ECHO]         = true' \
     'IRB.conf[:SAVE_HISTORY] = 1000' \
     'IRB.conf[:HISTORY_FILE] = "#{Dir.home}/.irb_history"' \
+    'IRB.conf[:USE_MULTILINE] = false if RUBY_VERSION >= "3.1"' \
     'Readline.completion_proc = proc { [] } rescue nil' \
     | base64)
 
