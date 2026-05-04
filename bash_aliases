@@ -153,4 +153,42 @@ alias re="rvm list; echo -n 'gemset: '; rvm gemset name"
 alias sds="kill -9 $(ps -A | grep -i 'oracle.ide.boot.Launcher'|  head -1 | awk '{print $1}')"
 
 alias rabl='rabbitmqctl list_queues && rabbitmqctl list_exchanges && rabbitmqctl list_bindings && rabbitmqctl list_connections && rabbitmqctl list_consumers'
+
+############################################################
+## Kubernetes / k8s
+############################################################
+
+# Open a Rails console on a k8s pod with per-session IRB settings.
+# Writes a custom .irbrc to the pod before opening the console:
+#   - ECHO on, AUTO_INDENT off, PROMPT_MODE SIMPLE
+#   - Readline completion disabled (fixes slow paste in Ruby 2.x)
+#   - IRB history persisted to $HOME/.irb_history on the pod
+#
+# Uses k8s console --exec so context switching goes through k8s_helper.
+#
+# Usage:
+#   kc         → prod rails-backend console
+#   kc s       → staging
+#   kc s rails-backend  → staging, specific app
+function kc() {
+  local env="${1:-p}"
+  local app="${2:-rails-backend}"
+
+  # Base64-encode the irbrc so it survives quoting inside --exec.
+  # Single-quoted strings prevent local shell expansion —
+  # Dir.home and $HOME expand on the pod at runtime.
+  local irbrc_b64
+  irbrc_b64=$(printf '%s\n' \
+    'IRB.conf[:PROMPT_MODE]  = :SIMPLE' \
+    'IRB.conf[:AUTO_INDENT]  = false' \
+    'IRB.conf[:ECHO]         = true' \
+    'IRB.conf[:SAVE_HISTORY] = 1000' \
+    'IRB.conf[:HISTORY_FILE] = "#{Dir.home}/.irb_history"' \
+    'Readline.completion_proc = proc { [] } rescue nil' \
+    | base64)
+
+  k8s use "$env"
+  k8s console -a "$app" --exec "bash -c 'echo ${irbrc_b64} | base64 -d > \$HOME/.irbrc && bundle exec rails c'"
+}
+
 ############################################################
